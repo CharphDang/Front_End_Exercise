@@ -1,0 +1,146 @@
+<!--
+ * @Author: Charph
+ * @Description: 自己练习， 区别参考样例中的是： 
+ *               vue屏幕闪烁问题解决【v-cloak相关】；
+ *               translate 偏移时使用 scrollTop 的高度，保证内容区的偏移和滚动条完全一致；
+ *               count计算的时候，连同padding的高度一起计算；
+ *               handleScroll 方法中，直接使用原生e.target.scrollTop，减少DOM的二次查找；
+ *               避免count的多次计算，在mounted 生命周期中计算好，后面只调用该值即可；
+ * @Date: 2021-01-15 13:41:25
+ * @LastEditors: Charph
+ * @LastEditTime: 2021-01-15 17:30:38
+-->
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0" />
+        <script src="./static/vue.js"></script>
+        <script src="./static/axios.min.js"></script>
+
+        <!-- 引入样式 -->
+        <link rel="stylesheet" href="./static/element.css" />
+        <style>
+            [v-cloak] {
+                display: none;
+            }
+            #app {
+                width: 80%;
+                margin: 50px auto;
+            }
+            .list-wrap {
+                position: relative;
+                width: 100%;
+                height: 300px;
+                overflow: auto;
+            }
+            .list-platform {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                background-color: red;
+            }
+            .list-body {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                background-color: yellow;
+            }
+            .list-item {
+                line-height: 30px;
+                padding: 6px;
+            }
+            ul {
+                margin: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="app">
+            <div class="list-wrap" ref="container" @scroll="handleScroll">
+                <div class="list-platform" :style="{ height: realHeight + 'px' }"></div>
+                <div class="list-body" ref="content">
+                    <ul>
+                        <li
+                            v-for="(item, index) in list"
+                            class="list-item"
+                            :key="index"
+                            v-cloak
+                            :height="itemHeight"
+                        >
+                            {{item}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script src="./static/element.js"></script>
+        <script>
+            var app = new Vue({
+                el: '#app',
+                computed: {
+                    realHeight() {
+                        return this.data.length * (this.itemHeight + 12);
+                    }
+                },
+                created() {},
+                mounted() {
+                    this.count = Math.ceil(
+                        this.$refs.container.clientHeight / (this.itemHeight + 12)
+                    );
+                    this.getData();
+                },
+
+                data() {
+                    return {
+                        data: [], // 总数据
+                        list: [], // 展示的数据
+                        itemHeight: 30,
+                        count: 0
+                    };
+                },
+
+                methods: {
+                    getData() {
+                        //创建模拟数据
+                        let data = [];
+                        for (let i = 0; i < 100000; i++) {
+                            data.push(`第 ${i} 个数据`);
+                        }
+                        this.data = [...data];
+                        this.update();
+                    },
+
+                    /**
+                     * @author Charph
+                     * @param {*} e 事件参数
+                     * @description 拿到当前滚动条的top，去更新数据，更新视图
+                     */
+                    handleScroll(e) {
+                        const scrollTop = e.target.scrollTop;
+                        this.update(scrollTop);
+                    },
+
+                    /**
+                     * @author Charph
+                     * @param {*} scrollTop
+                     * @description 根据当前的scrollTop计算数据的起始索引，终止索引，然后更新数据
+                     */
+                    update(scrollTop = 0) {
+                        const startIndex = Math.floor(scrollTop / (this.itemHeight + 12));
+                        const endIndex = startIndex + this.count;
+                        this.list = this.data.slice(startIndex, endIndex);
+                        this.$refs.content.style.transform = `translateY(${
+                            // startIndex * (this.itemHeight + 12)
+                            scrollTop
+                        }px)`;
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

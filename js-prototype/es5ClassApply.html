@@ -1,0 +1,60 @@
+<!--
+# -*- coding: utf-8 -*-
+# @moduleName: es5继承的使用
+# @Author: D.chaofeng
+# @Date:   2019-03-04 15:43:02
+# @Last Modified by:   D.chaofeng
+# @Last Modified time: 2019-03-04 17:47:42
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>es5继承的使用</title>
+  </head>
+  </style>
+
+  <body>
+    <script src="./selfClassFinal.js"></script>
+    <!-- <script src="./selfClass3.js"></script> -->
+    <!-- <script src="./class.js"></script> -->
+    <script>
+      // 基类-动物
+      var Animal = Class.extend({
+        // init是构造函数，起到contructor的作用
+        init: function(name) {
+          this.name = name;
+          console.log(this.name, '--------基类>>>>>>>>Animal中的init方法');
+        },
+        sayName: function() {
+          console.log(this.name, '--------基类>>>>>>>>Animal中的sayName方法');
+        }
+      });
+
+      console.log(Animal);
+      var animal = new Animal('小动物');
+      animal.sayName();
+
+      // 子类，狗--继承于动物类
+      var Dog = Animal.extend({
+        // init是构造函数
+        init: function(name, age) {
+          //  在构造函数中调用父类的构造函数
+          this._super(name);
+          this.age = age;
+        },
+        sayName: function() {
+          // 调用父类方法
+          this._super();
+          // 写子类自己的方法
+          console.log(
+            `${this.name}(${this.age})----------子类>>>>>>>>>>>Dog类中的方法`
+          );
+        }
+      });
+
+      var dog = new Dog('大黄', '7');
+      dog.sayName();
+    </script>
+  </body>
+</html>

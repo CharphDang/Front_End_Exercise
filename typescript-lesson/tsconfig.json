@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "es6",
+    "target": "es5",
+    "sourceMap": true,
+    "noEmit": false,
+    "downlevelIteration": true,
+    "checkJs": false,
+    "allowJs": true,
+    "lib": ["dom", "es5", "es2016"],
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true
+  },
+  "include": ["./**/*.ts"],
+  "exclude": ["./node_modules/**/*"]
+}

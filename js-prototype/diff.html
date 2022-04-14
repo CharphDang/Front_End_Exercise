@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+    // console.log(A);
+    console.log(B);
+    class A {};
+    function B() {};
+
+    var People = class Peo {
+        constructor(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        // 此处是原型方法
+        sayName() {
+            console.log(this.name + ': 芳龄' + this.age);
+        }
+    }
+
+    console.log(People, '----->class创建的类');
+    console.log(People.name, '----->class创建的类');
+    console.log(People.length, '----->class创建的类');
+    // console.log(Peo); // 此处是class表达式，class后面的变量并没有实例化为一个变量访问出错， 如果是class Peo {} 去掉前面的赋值操作，便会创建出Peo变量
+    var people = new People('小红', '20');
+    console.log(people, '-----class创建的类的实例化对象');
+    people.sayName.apply({ name: '小白', age: '18' })
+
+    var Person = function Per(name, age, height) {
+        this.name = name;
+        this.age = age;
+        this.height = height;
+    }
+    // console.log(Per); // 同上，函数表达式没有实例化后面的名称为变量
+    Person.prototype.sayName = function() {
+        console.log(this.name + ': 芳龄' + this.age + '，身高' + this.height);
+    }
+
+    console.log(Person, '----->fn创建的类');
+    console.log(Person.name, '----->fn创建的类');
+    console.log(Person.length, '----->fn创建的类');
+    var person = new Person('小红', '20', '170');
+    console.log(person, '-----fn创建的类的实例化对象');
+
+    person.sayName.apply({ name: '小白', age: '18', height: '160' });
+    </script>
+</body>
+
+</html>
