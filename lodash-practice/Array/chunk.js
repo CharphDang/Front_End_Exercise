@@ -16,3 +16,6 @@ console.log(chunk(3)(arr)); // Charph-log
 
 const _chunk = require('lodash/chunk');
 console.log(_chunk(arr, 3)); // 顺序不能改，也不能柯里化
+
+console.log(arr, 'arr') // Charph-log
+// no change

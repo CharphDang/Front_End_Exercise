@@ -13,4 +13,5 @@ console.log(drop(1)(objects)); // Charph-log
 // => [2, 3]
 console.log(drop(2)(objects)); // Charph-log
 // => [3]
-
+console.log(objects, 'objects') // Charph-log
+// no change

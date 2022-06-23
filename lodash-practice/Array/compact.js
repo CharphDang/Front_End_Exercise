@@ -8,3 +8,5 @@ const arr = ['a', '', 'c', 0, false, null, undefined, NaN,'d'];
  // 注意： 柯里化，没个函数只传一个参数
 console.log(compact(arr));
 // => [ 'a', 'c', 'd' ]
+console.log(arr, 'arr') // Charph-log
+// no change
